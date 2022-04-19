@@ -1,29 +1,33 @@
 <div class="slider">
-    <div class="slide">
-        <div class="slide-bg">
-            <img class="slide-bg-image" src="https://image.tmdb.org/t/p/original/yzH5zvuEzzsHLZnn0jwYoPf0CMT.jpg"
-                alt="">
-        </div>
-        <div class="slide-pane">
-            <h2 class="name">
-                test test test test
-            </h2>
-            <div class="meta">
-                <div class="info">
-                    <span class="rating">
-                        <span>star
-                            <span class="rating-value">7.5
-                                <span>/10</span></span></span>
-                        <span>463 reviews</span>
-                        <span>2021</span>
-                    </span>
-                </div>
+    <ng-container *ngFor="let item of items; let i = index">
+        <div class="slide" *ngIf="i == currentSlideIndex" @slideFade>
+            <div class="slide-bg">
+                <img class="slide-bg-image" [src]="'https://image.tmdb.org/t/p/original/'+item.backdrop_path" alt="">
             </div>
-            <div class="desc mt-6">In the not-too-distant future, two drifters traveling through the desert stumble across
-                the biggest gold nugget ever found and the dream of immense wealth and greed takes hold. They hatch a
-                plan to excavate their bounty, with one man leaving to secure the necessary tools while the other
-                remains with the gold. The man who remains must endure harsh desert elements, ravenous wild dogs, and
-                mysterious intruders, while battling the sinking suspicion that he has been abandoned to his fate.</div>
+            <div class="slide-pane">
+                <div class="state" *ngIf="compareDates(item.release_date, today); else elseBlockShow">
+                    Coming Soon</div>
+                <ng-template #elseBlockShow>
+                    <span class="state">On Theatre</span>
+                </ng-template>
+                <h2 class="name">
+                    {{item.title}}
+                </h2>
+                <div class="meta">
+                    <div class="info">
+                        <span class="rating">
+                            <div class="rating">
+                                <span class="app-icon">star</span>
+                                <span class="rating-value">{{item.vote_average}}</span>
+                                <span>/ 10</span>
+                            </div>
+                            <div>{{item.vote_count}} reviews</div>
+                            <div>{{item.release_date | date:'dd-LLL-yyyy'}}</div>
+                        </span>
+                    </div>
+                </div>
+                <div class="desc mt-6">{{item.overview}}</div>
+            </div>
         </div>
-    </div>
+    </ng-container>
 </div>
